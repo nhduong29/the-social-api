@@ -1,0 +1,475 @@
+openapi: 3.0.0
+info:
+  title: Integration Specifications
+  version: '1.0'
+  description: The social CRM and Zeopiq sytem
+  contact:
+    name: Duong Nguyen
+    email: nhduong29@gmail.com
+servers:
+  - url: 'https://thesocial.stoplight.io/mocks/thesocial/thesocial-zeoniq/2237511'
+paths:
+  /customer:
+    get:
+      summary: Get Customer Information
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: &ref_2
+                description: ''
+                type: object
+                title: Customer
+                x-examples:
+                  example-1:
+                    cardNumber: '123456'
+                    phoneNumber: '+61123456789'
+                    email: test@gmail.com
+                    name: User1
+                    accountNumber: '123456'
+                    pointBalance: 980
+                    creditBalance: 985.2
+                    tier: GOLD
+                    vouchers:
+                      - voucherID: v0123
+                        voucherName: RM50 off the bill
+                        value: 0
+                        voucherType: Cash Voucher
+                properties:
+                  cardNumber:
+                    type: string
+                    minLength: 1
+                  phoneNumber:
+                    type: string
+                    minLength: 1
+                  email:
+                    type: string
+                    minLength: 1
+                  name:
+                    type: string
+                    minLength: 1
+                  accountNumber:
+                    type: string
+                    minLength: 1
+                  pointBalance:
+                    type: number
+                  creditBalance:
+                    type: number
+                  tier:
+                    type: string
+                    minLength: 1
+                  vouchers:
+                    type: array
+                    items: &ref_0
+                      title: Voucher
+                      type: object
+                      description: Voucher of Customer
+                      properties:
+                        voucherID:
+                          type: string
+                        voucherName:
+                          type: string
+                        value:
+                          type: number
+                        voucherType:
+                          type: string
+                      x-examples:
+                        example-1:
+                          voucherID: string
+                          voucherName: string
+                          value: 0
+                          voucherType: string
+                required:
+                  - cardNumber
+                  - phoneNumber
+                  - email
+                  - name
+                  - accountNumber
+                  - pointBalance
+                  - creditBalance
+                  - tier
+              examples:
+                example-1:
+                  value:
+                    cardNumber: string
+                    phoneNumber: string
+                    email: string
+                    name: string
+                    accountNumber: string
+                    pointBalance: 0
+                    creditBalance: 0
+                    tier: string
+                    vouchers:
+                      - voucherID: string
+                        voucherName: string
+                        value: 0
+                        voucherType: string
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    minLength: 1
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - errorCode
+                  - message
+              examples:
+                example-1:
+                  value:
+                    errorCode: ACC-NOT-FOUND
+                    message: Accound not found
+      operationId: get-customer
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: accountNumber
+          required: true
+          description: Account number of Customer
+      description: Get customer informations by accountNumber
+  /submit-sale:
+    post:
+      summary: Submit a sale data to CRM
+      operationId: post-submit-sale
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  pointBalance:
+                    type: number
+                  creditBalance:
+                    type: number
+                  remarks:
+                    type: string
+                    minLength: 1
+                  vouchers:
+                    type: array
+                    items: *ref_0
+                  pointEarned:
+                    type: number
+                  pointRedeemed:
+                    type: number
+                required:
+                  - pointBalance
+                  - creditBalance
+                  - remarks
+              examples:
+                example-1:
+                  value:
+                    pointBalance: 123
+                    creditBalance: 25.26
+                    remarks: note only
+                    vouchers:
+                      - voucherID: v0123
+                        voucherName: RM50 off the bill
+                        value: -50
+                        voucherType: Cash Voucher
+                      - voucherID: v0987
+                        voucherName: 20% off the bill
+                        value: -80
+                        voucherType: Cash Voucher
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    minLength: 1
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - errorCode
+                  - message
+              examples:
+                example-1:
+                  value:
+                    errorCode: SUBMIT-SALE-ERROR
+                    message: Can't submit sale...
+      description: >-
+        POS submit the transaction info to the CRM to check status, check
+        points, credit
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                receiptID:
+                  type: string
+                  minLength: 1
+                orderID:
+                  type: string
+                  minLength: 1
+                posNo:
+                  type: string
+                  minLength: 1
+                  description: POS number
+                billDate:
+                  type: string
+                  minLength: 1
+                groundTotalAmount:
+                  type: number
+                  description: Total price after tax
+                taxAmount:
+                  type: number
+                  description: Total price befor tax
+                tableNumber:
+                  type: string
+                  minLength: 1
+                guests:
+                  type: number
+                  description: Amount of guests
+                staffId:
+                  type: string
+                  minLength: 1
+                  description: 'ID of Staft, who created this bill'
+                menuItems:
+                  type: array
+                  description: List of items that User ordered
+                  items: &ref_1
+                    description: Order item
+                    type: object
+                    title: OrderItem
+                    properties:
+                      productCode:
+                        type: string
+                        minLength: 1
+                      quantity:
+                        type: number
+                      price:
+                        type: number
+                      remarks:
+                        type: string
+                        minLength: 1
+                      productName:
+                        type: string
+                      category:
+                        type: string
+                    required:
+                      - productCode
+                      - quantity
+                      - price
+                      - remarks
+                      - productName
+                      - category
+                accountNumber:
+                  type: string
+                  description: Account number of customer
+                outletID:
+                  type: string
+                  description: Outlet Name
+                cardNumber:
+                  type: string
+                  description: Card number
+                totalAmount:
+                  type: number
+                  description: Total price before tax
+                totalDiscount:
+                  type: number
+                  description: Total of Discount
+              required:
+                - receiptID
+                - orderID
+                - posNo
+                - billDate
+                - groundTotalAmount
+                - taxAmount
+                - tableNumber
+                - guests
+                - staffId
+                - menuItems
+                - accountNumber
+                - outletID
+                - cardNumber
+                - totalAmount
+                - totalDiscount
+            examples:
+              example-1:
+                value:
+                  receiptID: '001'
+                  orderID: OD001
+                  posNo: POS-07
+                  billDate: 'Thu Oct 15 2020 21:22:45 GMT+0800'
+                  groundTotalAmount: 174
+                  taxAmount: 24
+                  tableNumber: TAB-01
+                  guests: 3
+                  staffId: Staff-01
+                  menuItems:
+                    - productCode: RICE-001
+                      quantity: 2
+                      price: 37
+                      remarks: string
+                      productName: Chicken Rice
+                      category: Category-01
+                  accountNumber: '0123456789'
+                  payments:
+                    - tenderCode: '001'
+                      tenderDesc: Pay by Cash
+                      currencyCode: MYR
+                      paymentAmount: 50
+                    - tenderCode: '002'
+                      tenderDesc: Pay by credit
+                      currencyCode: MYR
+                      paymentAmount: 10
+                  outletID: BANGSAR-01
+                  cardNumber: '123456'
+                  totalAmount: 150
+                  totalDiscount: 0
+    put:
+      summary: ''
+      operationId: put-submit-sale
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  pointEarned:
+                    type: number
+                  pointRedeemed:
+                    type: number
+                  pointBalance:
+                    type: number
+                  creditBalance:
+                    type: number
+                  remarks:
+                    type: string
+                    minLength: 1
+                  vouchers:
+                    type: array
+                    items: *ref_0
+                required:
+                  - pointEarned
+                  - pointRedeemed
+                  - pointBalance
+                  - creditBalance
+                  - remarks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                receiptID:
+                  type: string
+                  minLength: 1
+                orderID:
+                  type: string
+                  minLength: 1
+                posNo:
+                  type: string
+                  minLength: 1
+                billDate:
+                  type: string
+                  minLength: 1
+                groundTotalAmount:
+                  type: number
+                taxAmount:
+                  type: number
+                tableNumber:
+                  type: string
+                  minLength: 1
+                guests:
+                  type: number
+                staffId:
+                  type: string
+                  minLength: 1
+                menuItems:
+                  type: array
+                  uniqueItems: true
+                  minItems: 1
+                  items: *ref_1
+                accountNumber:
+                  type: string
+                  minLength: 1
+                payments:
+                  type: array
+                  uniqueItems: true
+                  minItems: 1
+                  items: &ref_3
+                    description: >-
+                      The payment tender is the method by which a payment was
+                      received. Cash, check, wire transfer, PayPal, credit
+                      card...
+                    type: object
+                    properties:
+                      tenderCode:
+                        type: string
+                        minLength: 1
+                      tenderDesc:
+                        type: string
+                        minLength: 1
+                      currencyCode:
+                        type: string
+                        minLength: 1
+                      paymentAmount:
+                        type: number
+                    required:
+                      - tenderCode
+                      - tenderDesc
+                      - currencyCode
+                      - paymentAmount
+                    title: Payment
+                outletID:
+                  type: string
+                  minLength: 1
+                cardNumber:
+                  type: string
+                  minLength: 1
+                totalAmount:
+                  type: number
+                totalDiscount:
+                  type: number
+              required:
+                - receiptID
+                - orderID
+                - posNo
+                - billDate
+                - groundTotalAmount
+                - taxAmount
+                - tableNumber
+                - guests
+                - staffId
+                - menuItems
+                - accountNumber
+                - payments
+                - outletID
+                - cardNumber
+                - totalAmount
+                - totalDiscount
+      description: >-
+        POS submit the transaction info to the CRM to update point, credit,
+        payment history...
+components:
+  schemas:
+    Customer: *ref_2
+    Payment: *ref_3
+    OrderItem: *ref_1
+    Voucher: *ref_0
+  securitySchemes: {}

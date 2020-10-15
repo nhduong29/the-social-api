@@ -1,0 +1,19 @@
+{
+  "name": "crm-api-swagger",
+  "version": "1.0.0",
+  "description": "Swagger UI for API",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Duong Nguyen",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "swagger-ui-express": "^4.1.4",
+    "yamljs": "^0.3.0"
+  },
+  "engines": {
+    "node": "12.x"
+  }
+}
