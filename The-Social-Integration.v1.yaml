@@ -220,7 +220,7 @@ paths:
                 billDate:
                   type: string
                   minLength: 1
-                groundTotalAmount:
+                groundTotal:
                   type: number
                   description: Total price after tax
                 taxAmount:
@@ -271,7 +271,7 @@ paths:
                 cardNumber:
                   type: string
                   description: Card number
-                totalAmount:
+                totalPrice:
                   type: number
                   description: Total price before tax
                 totalDiscount:
@@ -313,7 +313,7 @@ paths:
                 - orderID
                 - posNo
                 - billDate
-                - groundTotalAmount
+                - groundTotal
                 - taxAmount
                 - tableNumber
                 - guests
@@ -321,7 +321,7 @@ paths:
                 - menuItems
                 - outletID
                 - cardNumber
-                - totalAmount
+                - totalPrice
                 - totalDiscount
             examples:
               example-1:
@@ -330,7 +330,7 @@ paths:
                   orderID: string
                   posNo: string
                   billDate: string
-                  groundTotalAmount: 0
+                  groundTotal: 0
                   taxAmount: 0
                   tableNumber: string
                   guests: 0
@@ -344,7 +344,7 @@ paths:
                       category: string
                   outletID: string
                   cardNumber: string
-                  totalAmount: 0
+                  totalPrice: 0
                   totalDiscount: 0
                   vouchers:
                     - voucherID: string
@@ -358,7 +358,7 @@ paths:
                       currencyCode: string
                       paymentAmount: 0
     put:
-      summary: ''
+      summary: Submit a sale data to CRM
       operationId: put-submit-sale
       responses:
         '200':
@@ -386,6 +386,14 @@ paths:
                   - pointBalance
                   - creditBalance
                   - remarks
+              examples:
+                example-1:
+                  value:
+                    pointEarned: 0
+                    pointRedeemed: 0
+                    pointBalance: 0
+                    creditBalance: 0
+                    remarks: string
         '400':
           description: Bad Request
           content:
@@ -422,7 +430,7 @@ paths:
                 billDate:
                   type: string
                   minLength: 1
-                groundTotalAmount:
+                groundTotal:
                   type: number
                 taxAmount:
                   type: number
@@ -454,7 +462,7 @@ paths:
                 cardNumber:
                   type: string
                   minLength: 1
-                totalAmount:
+                totalPrice:
                   type: number
                 totalDiscount:
                   type: number
@@ -467,7 +475,7 @@ paths:
                 - orderID
                 - posNo
                 - billDate
-                - groundTotalAmount
+                - groundTotal
                 - taxAmount
                 - tableNumber
                 - guests
@@ -477,11 +485,46 @@ paths:
                 - payments
                 - outletID
                 - cardNumber
-                - totalAmount
+                - totalPrice
                 - totalDiscount
+            examples:
+              example-1:
+                value:
+                  receiptID: string
+                  orderID: string
+                  posNo: string
+                  billDate: string
+                  groundTotal: 0
+                  taxAmount: 0
+                  tableNumber: string
+                  guests: 0
+                  staffId: string
+                  menuItems:
+                    - productCode: string
+                      quantity: 0
+                      price: 0
+                      remarks: string
+                      productName: string
+                      category: string
+                  accountNumber: string
+                  payments:
+                    - tenderCode: string
+                      tenderDesc: string
+                      currencyCode: string
+                      paymentAmount: 0
+                  outletID: string
+                  cardNumber: string
+                  totalPrice: 0
+                  totalDiscount: 0
+                  vouchers:
+                    - voucherID: string
+                      voucherName: string
+                      value: 0
+                      voucherType: string
+                      expiryDate: string
       description: >-
         POS submit the transaction info to the CRM to update point, credit,
-        payment history...
+        payment history AND CLOSE TRANSACTION!
   /redeem-voucher:
     get:
       summary: Redeem voucher
@@ -535,6 +578,36 @@ paths:
           name: voucherNumber
           required: true
           description: Voucher Number or Vouvher barcode
+      description: Get Voucher information from CRM
+  /redeem-credit:
+    post:
+      summary: ''
+      operationId: post-redeem-credit
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  'acceptedCreditAmount ':
+                    type: number
+                  creditBalance:
+                    type: number
+                  rejectedCreditAmount:
+                    type: number
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cardNumber:
+                  type: number
+                creditAmount:
+                  type: number
 components:
   schemas:
     Customer: *ref_3
