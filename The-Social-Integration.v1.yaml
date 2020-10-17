@@ -18,7 +18,7 @@ paths:
           description: OK
           content:
             application/json:
-              schema: &ref_2
+              schema: &ref_3
                 description: ''
                 type: object
                 title: Customer
@@ -66,6 +66,12 @@ paths:
                       title: Voucher
                       type: object
                       description: Voucher of Customer
+                      x-examples:
+                        example-1:
+                          voucherID: string
+                          voucherName: string
+                          value: 0
+                          voucherType: string
                       properties:
                         voucherID:
                           type: string
@@ -75,12 +81,8 @@ paths:
                           type: number
                         voucherType:
                           type: string
-                      x-examples:
-                        example-1:
-                          voucherID: string
-                          voucherName: string
-                          value: 0
-                          voucherType: string
+                        expiryDate:
+                          type: string
                 required:
                   - cardNumber
                   - phoneNumber
@@ -106,8 +108,8 @@ paths:
                         voucherName: string
                         value: 0
                         voucherType: string
-        '404':
-          description: Not Found
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -133,7 +135,7 @@ paths:
         - schema:
             type: string
           in: query
-          name: accountNumber
+          name: cardNumber
           required: true
           description: Account number of Customer
       description: Get customer informations by accountNumber
@@ -157,9 +159,6 @@ paths:
                   remarks:
                     type: string
                     minLength: 1
-                  vouchers:
-                    type: array
-                    items: *ref_0
                   pointEarned:
                     type: number
                   pointRedeemed:
@@ -171,20 +170,13 @@ paths:
               examples:
                 example-1:
                   value:
-                    pointBalance: 123
-                    creditBalance: 25.26
-                    remarks: note only
-                    vouchers:
-                      - voucherID: v0123
-                        voucherName: RM50 off the bill
-                        value: -50
-                        voucherType: Cash Voucher
-                      - voucherID: v0987
-                        voucherName: 20% off the bill
-                        value: -80
-                        voucherType: Cash Voucher
-        '404':
-          description: Not Found
+                    pointBalance: 0
+                    creditBalance: 0
+                    remarks: string
+                    pointEarned: 0
+                    pointRedeemed: 0
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -273,9 +265,6 @@ paths:
                       - remarks
                       - productName
                       - category
-                accountNumber:
-                  type: string
-                  description: Account number of customer
                 outletID:
                   type: string
                   description: Outlet Name
@@ -288,6 +277,37 @@ paths:
                 totalDiscount:
                   type: number
                   description: Total of Discount
+                vouchers:
+                  type: array
+                  description: List out all vouchers that user want to redeem
+                  items: *ref_0
+                payments:
+                  type: array
+                  description: List out all payment method user use to pay the bill
+                  items: &ref_2
+                    description: >-
+                      The payment tender is the method by which a payment was
+                      received. Cash, check, wire transfer, PayPal, credit
+                      card...
+                    type: object
+                    properties:
+                      tenderCode:
+                        type: string
+                        minLength: 1
+                      tenderDesc:
+                        type: string
+                        minLength: 1
+                      currencyCode:
+                        type: string
+                        minLength: 1
+                      paymentAmount:
+                        type: number
+                    required:
+                      - tenderCode
+                      - tenderDesc
+                      - currencyCode
+                      - paymentAmount
+                    title: Payment
               required:
                 - receiptID
                 - orderID
@@ -299,7 +319,6 @@ paths:
                 - guests
                 - staffId
                 - menuItems
-                - accountNumber
                 - outletID
                 - cardNumber
                 - totalAmount
@@ -307,36 +326,37 @@ paths:
             examples:
               example-1:
                 value:
-                  receiptID: '001'
-                  orderID: OD001
-                  posNo: POS-07
-                  billDate: 'Thu Oct 15 2020 21:22:45 GMT+0800'
-                  groundTotalAmount: 174
-                  taxAmount: 24
-                  tableNumber: TAB-01
-                  guests: 3
-                  staffId: Staff-01
+                  receiptID: string
+                  orderID: string
+                  posNo: string
+                  billDate: string
+                  groundTotalAmount: 0
+                  taxAmount: 0
+                  tableNumber: string
+                  guests: 0
+                  staffId: string
                   menuItems:
-                    - productCode: RICE-001
-                      quantity: 2
-                      price: 37
+                    - productCode: string
+                      quantity: 0
+                      price: 0
                       remarks: string
-                      productName: Chicken Rice
-                      category: Category-01
-                  accountNumber: '0123456789'
-                  payments:
-                    - tenderCode: '001'
-                      tenderDesc: Pay by Cash
-                      currencyCode: MYR
-                      paymentAmount: 50
-                    - tenderCode: '002'
-                      tenderDesc: Pay by credit
-                      currencyCode: MYR
-                      paymentAmount: 10
-                  outletID: BANGSAR-01
-                  cardNumber: '123456'
-                  totalAmount: 150
+                      productName: string
+                      category: string
+                  outletID: string
+                  cardNumber: string
+                  totalAmount: 0
                   totalDiscount: 0
+                  vouchers:
+                    - voucherID: string
+                      voucherName: string
+                      value: 0
+                      voucherType: string
+                      expiryDate: string
+                  payments:
+                    - tenderCode: string
+                      tenderDesc: string
+                      currencyCode: string
+                      paymentAmount: 0
     put:
       summary: ''
       operationId: put-submit-sale
@@ -360,15 +380,29 @@ paths:
                   remarks:
                     type: string
                     minLength: 1
-                  vouchers:
-                    type: array
-                    items: *ref_0
                 required:
                   - pointEarned
                   - pointRedeemed
                   - pointBalance
                   - creditBalance
                   - remarks
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    minLength: 1
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - errorCode
+                  - message
       requestBody:
         content:
           application/json:
@@ -412,30 +446,8 @@ paths:
                   type: array
                   uniqueItems: true
                   minItems: 1
-                  items: &ref_3
-                    description: >-
-                      The payment tender is the method by which a payment was
-                      received. Cash, check, wire transfer, PayPal, credit
-                      card...
-                    type: object
-                    properties:
-                      tenderCode:
-                        type: string
-                        minLength: 1
-                      tenderDesc:
-                        type: string
-                        minLength: 1
-                      currencyCode:
-                        type: string
-                        minLength: 1
-                      paymentAmount:
-                        type: number
-                    required:
-                      - tenderCode
-                      - tenderDesc
-                      - currencyCode
-                      - paymentAmount
-                    title: Payment
+                  description: List out all payment method user use to pay the bill
+                  items: *ref_2
                 outletID:
                   type: string
                   minLength: 1
@@ -446,6 +458,10 @@ paths:
                   type: number
                 totalDiscount:
                   type: number
+                vouchers:
+                  type: array
+                  description: List out all vouchers that user want to redeem
+                  items: *ref_0
               required:
                 - receiptID
                 - orderID
@@ -466,10 +482,63 @@ paths:
       description: >-
         POS submit the transaction info to the CRM to update point, credit,
         payment history...
+  /redeem-voucher:
+    get:
+      summary: Redeem voucher
+      operationId: get-redeem-voucher
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: *ref_0
+              examples:
+                example-1:
+                  value:
+                    voucherID: string
+                    voucherName: string
+                    value: 0
+                    voucherType: string
+                    expiryDate: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    minLength: 1
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - errorCode
+                  - message
+              examples:
+                example-1:
+                  value:
+                    errorCode: VOUCHER-NOT-FOUND
+                    message: string
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: cardNumber
+          required: true
+          description: Card number of customer
+        - schema:
+            type: string
+          in: query
+          name: voucherNumber
+          required: true
+          description: Voucher Number or Vouvher barcode
 components:
   schemas:
-    Customer: *ref_2
-    Payment: *ref_3
+    Customer: *ref_3
+    Payment: *ref_2
     OrderItem: *ref_1
     Voucher: *ref_0
   securitySchemes: {}
