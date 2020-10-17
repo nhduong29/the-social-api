@@ -7,7 +7,7 @@ info:
     name: Duong Nguyen
     email: nhduong29@gmail.com
 servers:
-  - url: 'https://thesocial.stoplight.io/mocks/thesocial/thesocial-zeoniq/2237511'
+  - url: 'https://thesocial.stoplight.io/mocks/thesocial/thesocial-zeoniq/2252264'
 paths:
   /customer:
     get:
