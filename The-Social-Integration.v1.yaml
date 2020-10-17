@@ -526,23 +526,15 @@ paths:
         POS submit the transaction info to the CRM to update point, credit,
         payment history AND CLOSE TRANSACTION!
   /redeem-voucher:
-    get:
-      summary: Redeem voucher
-      operationId: get-redeem-voucher
+    post:
+      summary: ''
+      operationId: post-redeem-voucher
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema: *ref_0
-              examples:
-                example-1:
-                  value:
-                    voucherID: string
-                    voucherName: string
-                    value: 0
-                    voucherType: string
-                    expiryDate: string
         '400':
           description: Bad Request
           content:
@@ -560,25 +552,17 @@ paths:
                 required:
                   - errorCode
                   - message
-              examples:
-                example-1:
-                  value:
-                    errorCode: VOUCHER-NOT-FOUND
-                    message: string
-      parameters:
-        - schema:
-            type: string
-          in: query
-          name: cardNumber
-          required: true
-          description: Card number of customer
-        - schema:
-            type: string
-          in: query
-          name: voucherNumber
-          required: true
-          description: Voucher Number or Vouvher barcode
       description: Get Voucher information from CRM
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cardNumber:
+                  type: string
+                voucherNumber:
+                  type: string
   /redeem-credit:
     post:
       summary: ''
