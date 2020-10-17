@@ -2,11 +2,17 @@ openapi: 3.0.0
 info:
   title: The Social CRM - Integration Specifications
   version: '1.0'
-  description: |-
+  description: >-
     The CRM and Zeoniq sytem integration
 
+
     We use API keys as the secure key to access The Social CRM.
+
     Please get in touch with us to request a apiKey.
+
+
+    For the work flow, please prefer this diagram:
+    https://crm-zeoniq.herokuapp.com/docs/the-social-payment-earn-point.pdf
   contact:
     name: Duong Nguyen
     email: nhduong29@gmail.com
