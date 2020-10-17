@@ -1,8 +1,12 @@
 openapi: 3.0.0
 info:
-  title: Integration Specifications
+  title: The Social CRM - Integration Specifications
   version: '1.0'
-  description: The social CRM and Zeopiq sytem
+  description: |-
+    The CRM and Zeoniq sytem integration
+
+    We use API keys as the secure key to access The Social CRM.
+    Please get in touch with us to request a apiKey.
   contact:
     name: Duong Nguyen
     email: nhduong29@gmail.com
@@ -62,6 +66,7 @@ paths:
                     minLength: 1
                   vouchers:
                     type: array
+                    description: List all of vouchers that this user have
                     items: &ref_0
                       title: Voucher
                       type: object
@@ -139,6 +144,8 @@ paths:
           required: true
           description: Account number of Customer
       description: Get customer informations by accountNumber
+      security:
+        - Authorization apiKey: []
   /submit-sale:
     post:
       summary: Submit a sale data to CRM
@@ -256,7 +263,7 @@ paths:
                         minLength: 1
                       productName:
                         type: string
-                      category:
+                      productCategory:
                         type: string
                     required:
                       - productCode
@@ -264,7 +271,7 @@ paths:
                       - price
                       - remarks
                       - productName
-                      - category
+                      - productCategory
                 outletID:
                   type: string
                   description: Outlet Name
@@ -341,7 +348,7 @@ paths:
                       price: 0
                       remarks: string
                       productName: string
-                      category: string
+                      productCategory: string
                   outletID: string
                   cardNumber: string
                   totalPrice: 0
@@ -357,6 +364,8 @@ paths:
                       tenderDesc: string
                       currencyCode: string
                       paymentAmount: 0
+      security:
+        - Authorization apiKey: []
     put:
       summary: Submit a sale data to CRM
       operationId: put-submit-sale
@@ -447,9 +456,6 @@ paths:
                   uniqueItems: true
                   minItems: 1
                   items: *ref_1
-                accountNumber:
-                  type: string
-                  minLength: 1
                 payments:
                   type: array
                   uniqueItems: true
@@ -481,7 +487,6 @@ paths:
                 - guests
                 - staffId
                 - menuItems
-                - accountNumber
                 - payments
                 - outletID
                 - cardNumber
@@ -505,8 +510,7 @@ paths:
                       price: 0
                       remarks: string
                       productName: string
-                      category: string
-                  accountNumber: string
+                      productCategory: string
                   payments:
                     - tenderCode: string
                       tenderDesc: string
@@ -525,6 +529,8 @@ paths:
       description: >-
         POS submit the transaction info to the CRM to update point, credit,
         payment history AND CLOSE TRANSACTION!
+      security:
+        - Authorization apiKey: []
   /redeem-voucher:
     post:
       summary: ''
@@ -535,6 +541,14 @@ paths:
           content:
             application/json:
               schema: *ref_0
+              examples:
+                example-1:
+                  value:
+                    voucherID: string
+                    voucherName: string
+                    value: 0
+                    voucherType: string
+                    expiryDate: string
         '400':
           description: Bad Request
           content:
@@ -559,10 +573,16 @@ paths:
             schema:
               type: object
               properties:
-                cardNumber:
-                  type: string
                 voucherNumber:
                   type: string
+              required:
+                - voucherNumber
+            examples:
+              example-1:
+                value:
+                  voucherNumber: string
+      security:
+        - Authorization apiKey: []
   /redeem-credit:
     post:
       summary: ''
@@ -592,10 +612,21 @@ paths:
                   type: number
                 creditAmount:
                   type: number
+      security:
+        - Authorization apiKey: []
 components:
   schemas:
     Customer: *ref_3
     Payment: *ref_2
     OrderItem: *ref_1
     Voucher: *ref_0
-  securitySchemes: {}
+  securitySchemes:
+    Authorization apiKey:
+      name: apiKey
+      type: apiKey
+      in: header
+      description: >-
+        Please get in touch with us to request a apiKey. You have to send this
+        key in every request to access CRM
+security:
+  - Authorization with Bearer type: []
