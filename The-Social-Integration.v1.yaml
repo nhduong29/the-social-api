@@ -148,8 +148,8 @@ paths:
           in: query
           name: cardNumber
           required: true
-          description: Account number of Customer
-      description: Get customer informations by accountNumber
+          description: Card number of Customer
+      description: Get customer informations by cardNumber
       security:
         - Authorization apiKey: []
   /submit-sale:
@@ -533,7 +533,8 @@ paths:
                       voucherType: string
                       expiryDate: string
       description: >-
-        THIS CALL TO CLOSE THE TRANSACTION, FINISH PAYMENT PROCESS
+        THIS CALL TO CLOSE THE TRANSACTION, FINISH PAYMENT PROCESS.
+
 
         POS submit the transaction info to the CRM to update point, credit,
         payment history AND CLOSE TRANSACTION!
