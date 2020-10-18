@@ -8,7 +8,7 @@ info:
 
     We use API keys as the secure key to access The Social CRM.
 
-    Please get in touch with us to request a apiKey.
+    Please get in touch with us to request an apiKey.
 
 
     For the work flow, please prefer this diagram:
@@ -533,13 +533,15 @@ paths:
                       voucherType: string
                       expiryDate: string
       description: >-
+        THIS CALL TO CLOSE THE TRANSACTION, FINISH PAYMENT PROCESS
+
         POS submit the transaction info to the CRM to update point, credit,
         payment history AND CLOSE TRANSACTION!
       security:
         - Authorization apiKey: []
   /redeem-voucher:
     post:
-      summary: ''
+      summary: Get Voucher information
       operationId: post-redeem-voucher
       responses:
         '200':
@@ -591,7 +593,7 @@ paths:
         - Authorization apiKey: []
   /redeem-credit:
     post:
-      summary: ''
+      summary: Use Credit
       operationId: post-redeem-credit
       responses:
         '200':
@@ -620,6 +622,35 @@ paths:
                   type: number
       security:
         - Authorization apiKey: []
+  /health-check:
+    get:
+      summary: CRM heath check
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - FAILED
+                      - OK
+              examples:
+                example-1:
+                  value:
+                    status: OK
+                example-2:
+                  value:
+                    status: FAILED
+      operationId: get-health-check
+      security:
+        - Authorization apiKey: []
+      description: This API use for check the CRM is online or not.
 components:
   schemas:
     Customer: *ref_3
