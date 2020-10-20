@@ -106,19 +106,46 @@ paths:
               examples:
                 example-1:
                   value:
-                    cardNumber: string
-                    phoneNumber: string
-                    email: string
-                    name: string
-                    accountNumber: string
-                    pointBalance: 0
-                    creditBalance: 0
-                    tier: string
+                    cardNumber: '0123456'
+                    phoneNumber: '+601127308562'
+                    email: user@gmail.com
+                    name: User Test
+                    accountNumber: ACC_NUMBER001
+                    pointBalance: 8000
+                    creditBalance: 230
+                    tier: GOLD
                     vouchers:
-                      - voucherID: string
-                        voucherName: string
-                        value: 0
-                        voucherType: string
+                      - voucherID: VOUCHER001_ACC_NUMBER001
+                        voucherName: Free chicken rice
+                        value: 1
+                        voucherType: PRODUCT_PROMOTION
+                        expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
+                example-2:
+                  value:
+                    cardNumber: '01234567'
+                    phoneNumber: '+601127308562'
+                    email: user1@gmail.com
+                    name: User 1 Test
+                    accountNumber: ACC_NUMBER002
+                    pointBalance: 9000
+                    creditBalance: 500
+                    tier: PLATILUM
+                    vouchers:
+                      - voucherID: VOUCHER001_ACC_NUMBER002
+                        voucherName: Free chicken rice
+                        value: 1
+                        voucherType: PRODUCT_PROMOTION
+                        expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
+                      - voucherID: VOUCHER002_ACC_NUMBER002
+                        voucherName: 20% off the bill
+                        value: 20
+                        voucherType: DISCOUNT
+                        expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
+                      - voucherID: VOUCHER003_ACC_NUMBER002
+                        voucherName: RM50 off the bill
+                        value: 50
+                        voucherType: CASH
+                        expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
         '400':
           description: Bad Request
           content:
@@ -183,10 +210,10 @@ paths:
               examples:
                 example-1:
                   value:
-                    pointBalance: 0
-                    creditBalance: 0
+                    pointBalance: 80
+                    creditBalance: 20
                     remarks: string
-                    pointEarned: 0
+                    pointEarned: 100
                     pointRedeemed: 0
         '400':
           description: Bad Request
@@ -275,7 +302,6 @@ paths:
                       - productCode
                       - quantity
                       - price
-                      - remarks
                       - productName
                       - productCategory
                 outletID:
@@ -339,37 +365,78 @@ paths:
             examples:
               example-1:
                 value:
-                  receiptID: string
-                  orderID: string
-                  posNo: string
-                  billDate: string
-                  groundTotal: 0
-                  taxAmount: 0
-                  tableNumber: string
-                  guests: 0
-                  staffId: string
+                  receiptID: RECEIPT_001
+                  orderID: ORDER_001
+                  posNo: POS_001
+                  billDate: 'Tue Oct 20 2020 20:59:22 GMT+0800'
+                  groundTotal: 200
+                  taxAmount: 20
+                  tableNumber: TABLE_001
+                  guests: 3
+                  staffId: STAFF_001
                   menuItems:
-                    - productCode: string
-                      quantity: 0
-                      price: 0
-                      remarks: string
-                      productName: string
-                      productCategory: string
-                  outletID: string
-                  cardNumber: string
-                  totalPrice: 0
+                    - productCode: CHICKEN_RICE_001
+                      quantity: 2
+                      price: 10
+                      productName: Chicken rice Viet
+                      productCategory: Category 1
+                    - productCode: COFFE_001
+                      quantity: 2
+                      price: 5
+                      productName: CAFE VIET
+                      productCategory: Category 2
+                  outletID: OUTLET_001
+                  cardNumber: CARD_ID_01234
+                  totalPrice: 220
                   totalDiscount: 0
                   vouchers:
-                    - voucherID: string
-                      voucherName: string
-                      value: 0
-                      voucherType: string
-                      expiryDate: string
+                    - voucherID: VOUCHER001_ACC_NUMBER002
+                      voucherName: Free chicken rice
+                      value: 1
+                      voucherType: PRODUCT_PROMOTION
+                      expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
+                    - voucherID: VOUCHER002_ACC_NUMBER002
+                      voucherName: 20% off the bill
+                      value: 20
+                      voucherType: DISCOUNT
+                      expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
                   payments:
-                    - tenderCode: string
-                      tenderDesc: string
-                      currencyCode: string
-                      paymentAmount: 0
+                    - tenderCode: CASH
+                      tenderDesc: pay with cash
+                      currencyCode: MYR
+                      paymentAmount: 100
+                    - tenderCode: SOCIAL_CREDIT
+                      tenderDesc: The credit of Social
+                      currencyCode: MYR
+                      paymentAmount: 20
+              example-2:
+                value:
+                  receiptID: RECEIPT_001
+                  orderID: ORDER_001
+                  posNo: POS_001
+                  billDate: 'Tue Oct 20 2020 20:59:22 GMT+0800'
+                  groundTotal: 200
+                  taxAmount: 20
+                  tableNumber: TABLE_001
+                  guests: 3
+                  staffId: STAFF_001
+                  menuItems:
+                    - productCode: CHICKEN_RICE_001
+                      quantity: 2
+                      price: 10
+                      productName: Chicken rice Viet
+                      productCategory: Category 1
+                    - productCode: COFFE_001
+                      quantity: 2
+                      price: 5
+                      productName: CAFE VIET
+                      productCategory: Category 2
+                  outletID: OUTLET_001
+                  cardNumber: CARD_ID_01234
+                  totalPrice: 220
+                  totalDiscount: 0
+                  vouchers: []
+                  payments: []
       security:
         - Authorization apiKey: []
     put:
@@ -404,10 +471,10 @@ paths:
               examples:
                 example-1:
                   value:
-                    pointEarned: 0
-                    pointRedeemed: 0
-                    pointBalance: 0
-                    creditBalance: 0
+                    pointEarned: 123
+                    pointRedeemed: 20
+                    pointBalance: 859
+                    creditBalance: 200
                     remarks: string
         '400':
           description: Bad Request
@@ -466,7 +533,9 @@ paths:
                   type: array
                   uniqueItems: true
                   minItems: 1
-                  description: List out all payment method user use to pay the bill
+                  description: >-
+                    List out all payment method user use to pay the bill.
+                    Required
                   items: *ref_2
                 outletID:
                   type: string
@@ -501,43 +570,92 @@ paths:
             examples:
               example-1:
                 value:
-                  receiptID: string
-                  orderID: string
-                  posNo: string
-                  billDate: string
-                  groundTotal: 0
-                  taxAmount: 0
-                  tableNumber: string
-                  guests: 0
-                  staffId: string
+                  receiptID: RECEIPT_001
+                  orderID: ORDER_001
+                  posNo: POS_001
+                  billDate: 'Tue Oct 20 2020 20:59:22 GMT+0800'
+                  groundTotal: 200
+                  taxAmount: 20
+                  tableNumber: TABLE_001
+                  guests: 3
+                  staffId: STAFF_001
                   menuItems:
-                    - productCode: string
-                      quantity: 0
-                      price: 0
-                      remarks: string
-                      productName: string
-                      productCategory: string
-                  payments:
-                    - tenderCode: string
-                      tenderDesc: string
-                      currencyCode: string
-                      paymentAmount: 0
-                  outletID: string
-                  cardNumber: string
-                  totalPrice: 0
+                    - productCode: CHICKEN_RICE_001
+                      quantity: 2
+                      price: 10
+                      productName: Chicken rice Viet
+                      productCategory: Category 1
+                    - productCode: COFFE_001
+                      quantity: 2
+                      price: 5
+                      productName: CAFE VIET
+                      productCategory: Category 2
+                  outletID: OUTLET_001
+                  cardNumber: CARD_ID_01234
+                  totalPrice: 220
                   totalDiscount: 0
                   vouchers:
-                    - voucherID: string
-                      voucherName: string
-                      value: 0
-                      voucherType: string
-                      expiryDate: string
+                    - voucherID: VOUCHER001_ACC_NUMBER002
+                      voucherName: Free chicken rice
+                      value: 1
+                      voucherType: PRODUCT_PROMOTION
+                      expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
+                    - voucherID: VOUCHER002_ACC_NUMBER002
+                      voucherName: 20% off the bill
+                      value: 20
+                      voucherType: DISCOUNT
+                      expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
+                  payments:
+                    - tenderCode: CASH
+                      tenderDesc: pay with cash
+                      currencyCode: MYR
+                      paymentAmount: 100
+                    - tenderCode: SOCIAL_CREDIT
+                      tenderDesc: The credit of Social
+                      currencyCode: MYR
+                      paymentAmount: 20
+              example-2:
+                value:
+                  receiptID: RECEIPT_001
+                  orderID: ORDER_001
+                  posNo: POS_001
+                  billDate: 'Tue Oct 20 2020 20:59:22 GMT+0800'
+                  groundTotal: 200
+                  taxAmount: 20
+                  tableNumber: TABLE_001
+                  guests: 3
+                  staffId: STAFF_001
+                  menuItems:
+                    - productCode: CHICKEN_RICE_001
+                      quantity: 2
+                      price: 10
+                      productName: Chicken rice Viet
+                      productCategory: Category 1
+                    - productCode: COFFE_001
+                      quantity: 2
+                      price: 5
+                      productName: CAFE VIET
+                      productCategory: Category 2
+                  outletID: OUTLET_001
+                  cardNumber: CARD_ID_01234
+                  totalPrice: 220
+                  totalDiscount: 0
+                  vouchers: []
+                  payments:
+                    - tenderCode: CASH
+                      tenderDesc: pay with cash
+                      currencyCode: MYR
+                      paymentAmount: 100
       description: >-
         THIS CALL TO CLOSE THE TRANSACTION, FINISH PAYMENT PROCESS.
 
 
         POS submit the transaction info to the CRM to update point, credit,
         payment history AND CLOSE TRANSACTION!
+
+        For this API, If customer using any vouchers, you need to send it belong
+        to vouchers array. The same for the payments, you have to send all the
+        payment method that used in this transaction.
       security:
         - Authorization apiKey: []
   /redeem-voucher:
@@ -553,11 +671,25 @@ paths:
               examples:
                 example-1:
                   value:
-                    voucherID: string
-                    voucherName: string
-                    value: 0
-                    voucherType: string
-                    expiryDate: string
+                    voucherID: VOUCHER001_ACC_NUMBER001
+                    voucherName: Free chicken rice
+                    value: 1
+                    voucherType: PRODUCT_PROMOTION
+                    expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
+                example-2:
+                  value:
+                    voucherID: VOUCHER002_ACC_NUMBER002
+                    voucherName: 20% off the bill
+                    value: 20
+                    voucherType: DISCOUNT
+                    expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
+                example-3:
+                  value:
+                    voucherID: VOUCHER003_ACC_NUMBER002
+                    voucherName: RM50 off the bill
+                    value: 50
+                    voucherType: CASH
+                    expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
         '400':
           description: Bad Request
           content:
@@ -575,7 +707,11 @@ paths:
                 required:
                   - errorCode
                   - message
-      description: Get Voucher information from CRM
+      description: >-
+        Get Voucher information from CRM
+
+        To update in our CRM, you need to add the to vouchers array in PUT
+        /submit-sale
       requestBody:
         content:
           application/json:
@@ -589,7 +725,13 @@ paths:
             examples:
               example-1:
                 value:
-                  voucherNumber: string
+                  voucherNumber: VOUCHER001_ACC_NUMBER001
+              example-2:
+                value:
+                  voucherNumber: VOUCHER002_ACC_NUMBER002
+              example-3:
+                value:
+                  voucherNumber: VOUCHER003_ACC_NUMBER002
       security:
         - Authorization apiKey: []
   /redeem-credit:
@@ -610,6 +752,34 @@ paths:
                     type: number
                   rejectedCreditAmount:
                     type: number
+              examples:
+                example-1:
+                  value:
+                    'acceptedCreditAmount ': 100
+                    creditBalance: 200
+                    rejectedCreditAmount: 0
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    minLength: 1
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - errorCode
+                  - message
+              examples:
+                example-1:
+                  value:
+                    errorCode: ERROR
+                    message: Error mesage...
       parameters: []
       requestBody:
         content:
@@ -618,11 +788,22 @@ paths:
               type: object
               properties:
                 cardNumber:
-                  type: number
+                  type: string
                 creditAmount:
                   type: number
+            examples:
+              example-1:
+                value:
+                  cardNumber: '0123456'
+                  creditAmount: 100
+        description: ''
       security:
         - Authorization apiKey: []
+      description: >-
+        This API just to get the credit info when user want to pay with credit.
+
+        To update in our CRM, you need to add the to payments array in PUT
+        /submit-sale
   /health-check:
     get:
       summary: CRM heath check
