@@ -646,6 +646,7 @@ paths:
                       tenderDesc: pay with cash
                       currencyCode: MYR
                       paymentAmount: 100
+        description: ''
       description: >-
         THIS CALL TO CLOSE THE TRANSACTION, FINISH PAYMENT PROCESS.
 
@@ -658,6 +659,7 @@ paths:
         payment method that used in this transaction.
       security:
         - Authorization apiKey: []
+      parameters: []
   /redeem-voucher:
     post:
       summary: Get Voucher information
@@ -667,29 +669,54 @@ paths:
           description: OK
           content:
             application/json:
-              schema: *ref_0
+              schema:
+                type: object
+                properties:
+                  pointBalance:
+                    type: number
+                  creditBalance:
+                    type: number
+                  pointEarned:
+                    type: integer
+                  pointRedeemed:
+                    type: number
+                  voucher: *ref_0
+                  customer: *ref_3
+                  product: *ref_1
+                required:
+                  - pointBalance
+                  - creditBalance
+                  - pointEarned
+                  - pointRedeemed
               examples:
                 example-1:
                   value:
-                    voucherID: VOUCHER001_ACC_NUMBER001
-                    voucherName: Free chicken rice
-                    value: 1
-                    voucherType: PRODUCT_PROMOTION
-                    expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
-                example-2:
-                  value:
-                    voucherID: VOUCHER002_ACC_NUMBER002
-                    voucherName: 20% off the bill
-                    value: 20
-                    voucherType: DISCOUNT
-                    expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
-                example-3:
-                  value:
-                    voucherID: VOUCHER003_ACC_NUMBER002
-                    voucherName: RM50 off the bill
-                    value: 50
-                    voucherType: CASH
-                    expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
+                    pointBalance: 100
+                    creditBalance: 100
+                    pointEarned: 1
+                    pointRedeemed: 10
+                    voucher:
+                      voucherID: VOUCHER001_ACC_NUMBER002
+                      voucherName: CHICKEND RICE VOUCHER
+                      value: 0
+                      voucherType: PRODUCT_PROMOTION
+                      expiryDate: string
+                    customer:
+                      cardNumber: string
+                      phoneNumber: string
+                      email: string
+                      name: string
+                      accountNumber: string
+                      pointBalance: 0
+                      creditBalance: 0
+                      tier: string
+                    product:
+                      productCode: CHICKEN_RICE
+                      quantity: 1
+                      price: 100
+                      remarks: USED BY THIS VOUCHER
+                      productName: Chicken rice Viet
+                      productCategory: Cate 1
         '400':
           description: Bad Request
           content:
@@ -707,6 +734,11 @@ paths:
                 required:
                   - errorCode
                   - message
+              examples:
+                example-1:
+                  value:
+                    errorCode: error
+                    message: product_not_found
       description: >-
         Get Voucher information from CRM
 
@@ -716,24 +748,180 @@ paths:
         content:
           application/json:
             schema:
+              description: ''
               type: object
               properties:
-                voucherNumber:
+                voucherID:
                   type: string
+                  minLength: 1
+                receiptID:
+                  type: string
+                  minLength: 1
+                orderID:
+                  type: string
+                  minLength: 1
+                posNo:
+                  type: string
+                  minLength: 1
+                billDate:
+                  type: string
+                  minLength: 1
+                tableNumber:
+                  type: string
+                  minLength: 1
+                staffId:
+                  type: string
+                  minLength: 1
+                outletID:
+                  type: string
+                  minLength: 1
               required:
-                - voucherNumber
+                - voucherID
+                - receiptID
+                - posNo
+                - billDate
+                - staffId
+                - outletID
             examples:
               example-1:
                 value:
-                  voucherNumber: VOUCHER001_ACC_NUMBER001
-              example-2:
-                value:
-                  voucherNumber: VOUCHER002_ACC_NUMBER002
-              example-3:
-                value:
-                  voucherNumber: VOUCHER003_ACC_NUMBER002
+                  voucherID: VOUCHER001_ACC_NUMBER002
+                  receiptID: string
+                  orderID: RECEIPT_001
+                  posNo: POS_001
+                  billDate: 'Tue Oct 20 2020 20:59:22 GMT+0800'
+                  tableNumber: TABLE_001
+                  staffId: STAFF_001
+                  outletID: OUTLET_001
+        description: ''
       security:
         - Authorization apiKey: []
+    put:
+      summary: ''
+      operationId: put-redeem-voucher
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pointBalance:
+                    type: number
+                  creditBalance:
+                    type: number
+                  pointEarned:
+                    type: number
+                  pointRedeemed:
+                    type: number
+                  voucher: *ref_0
+                  customer: *ref_3
+                  product: *ref_1
+              examples:
+                example-1:
+                  value:
+                    pointBalance: 100
+                    creditBalance: 100
+                    pointEarned: 1
+                    pointRedeemed: 10
+                    voucher:
+                      voucherID: VOUCHER001_ACC_NUMBER002
+                      voucherName: CHICKEND RICE VOUCHER
+                      value: 0
+                      voucherType: PRODUCT_PROMOTION
+                      expiryDate: string
+                    customer:
+                      cardNumber: string
+                      phoneNumber: string
+                      email: string
+                      name: string
+                      accountNumber: string
+                      pointBalance: 0
+                      creditBalance: 0
+                      tier: string
+                    product:
+                      productCode: CHICKEN_RICE
+                      quantity: 1
+                      price: 100
+                      remarks: USED BY THIS VOUCHER
+                      productName: Chicken rice Viet
+                      productCategory: Cate 1
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    minLength: 1
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - errorCode
+                  - message
+              examples:
+                example-1:
+                  value:
+                    errorCode: string
+                    message: string
+      security:
+        - Authorization apiKey: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                voucherID:
+                  type: string
+                  minLength: 1
+                receiptID:
+                  type: string
+                  minLength: 1
+                orderID:
+                  type: string
+                  minLength: 1
+                posNo:
+                  type: string
+                  minLength: 1
+                billDate:
+                  type: string
+                  minLength: 1
+                tableNumber:
+                  type: string
+                  minLength: 1
+                staffId:
+                  type: string
+                  minLength: 1
+                outletID:
+                  type: string
+                  minLength: 1
+              required:
+                - voucherID
+                - receiptID
+                - orderID
+                - posNo
+                - billDate
+                - tableNumber
+                - staffId
+                - outletID
+            examples:
+              example-1:
+                value:
+                  voucherID: VOUCHER001_ACC_NUMBER002
+                  receiptID: string
+                  orderID: RECEIPT_001
+                  posNo: POS_001
+                  billDate: 'Tue Oct 20 2020 20:59:22 GMT+0800'
+                  tableNumber: TABLE_001
+                  staffId: STAFF_001
+                  outletID: OUTLET_001
   /redeem-credit:
     post:
       summary: Use Credit
