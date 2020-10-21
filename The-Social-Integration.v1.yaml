@@ -440,7 +440,7 @@ paths:
       security:
         - Authorization apiKey: []
     put:
-      summary: Submit a sale data to CRM
+      summary: 'Submit a sale data to CRM, Update on CRM, Close Transaction'
       operationId: put-submit-sale
       responses:
         '200':
@@ -662,7 +662,7 @@ paths:
       parameters: []
   /redeem-voucher:
     post:
-      summary: Get Voucher information
+      summary: Redeem the voucher
       operationId: post-redeem-voucher
       responses:
         '200':
@@ -739,11 +739,7 @@ paths:
                   value:
                     errorCode: error
                     message: product_not_found
-      description: >-
-        Get Voucher information from CRM
-
-        To update in our CRM, you need to add the to vouchers array in PUT
-        /submit-sale
+      description: Validate Voucher information from CRM
       requestBody:
         content:
           application/json:
@@ -797,7 +793,7 @@ paths:
       security:
         - Authorization apiKey: []
     put:
-      summary: ''
+      summary: 'Redeem Voucher, Update in CRM, Close transaction'
       operationId: put-redeem-voucher
       responses:
         '200':
@@ -922,6 +918,31 @@ paths:
                   tableNumber: TABLE_001
                   staffId: STAFF_001
                   outletID: OUTLET_001
+      description: Redeem Voucher information from CRM
+    get:
+      summary: Validate Voucher
+      operationId: get-redeem-voucher
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: *ref_0
+              examples:
+                example-1:
+                  value:
+                    voucherID: string
+                    voucherName: string
+                    value: 0
+                    voucherType: string
+                    expiryDate: string
+      description: Validate Voucher information from CRM
+      parameters:
+        - schema:
+            type: string
+          in: query
+          required: true
+          name: voucherID
   /redeem-credit:
     post:
       summary: Use Credit
