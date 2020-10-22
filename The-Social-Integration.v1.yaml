@@ -17,15 +17,22 @@ info:
 
     FOR ALL THE ERROR CODE, PLEASE REFER THIS:
 
-    ACCOUNT-NOT-FOUND: Account not found, Can't find this account in CRM 
+
+
+    ACCOUNT-NOT-FOUND: Account not found, Can't find this account in CRM
+
 
     ACCOUNT-DISABLED: Account is not active
 
+
     VOUCHER-NOT-FOUND: Vouvher is not valid
+
 
     VOUCHER-EXPIRED: Voucher is expired
 
+
     CREDIT-ERROR: Redeem credit got error
+
 
     SUBMIT-SALE-ERROR: Submit sale got error
   contact:
