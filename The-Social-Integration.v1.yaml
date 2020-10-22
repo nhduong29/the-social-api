@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: The Social CRM - Integration Specifications
   version: '1.0'
-  description: >-
+  description: >
     The CRM and Zeoniq sytem integration
 
 
@@ -13,6 +13,21 @@ info:
 
     For the work flow, please prefer this diagram:
     https://crm-zeoniq.herokuapp.com/docs/the-social-payment-earn-point.pdf
+
+
+    FOR ALL THE ERROR CODE, PLEASE REFER THIS:
+
+    ACCOUNT-NOT-FOUND: Account not found, Can't find this account in CRM 
+
+    ACCOUNT-DISABLED: Account is not active
+
+    VOUCHER-NOT-FOUND: Vouvher is not valid
+
+    VOUCHER-EXPIRED: Voucher is expired
+
+    CREDIT-ERROR: Redeem credit got error
+
+    SUBMIT-SALE-ERROR: Submit sale got error
   contact:
     name: Duong Nguyen
     email: nhduong29@gmail.com
@@ -156,12 +171,10 @@ paths:
                 properties:
                   errorCode:
                     type: string
-                    minLength: 1
                   message:
                     type: string
                     minLength: 1
                 required:
-                  - errorCode
                   - message
               examples:
                 example-1:
@@ -493,6 +506,11 @@ paths:
                 required:
                   - errorCode
                   - message
+              examples:
+                example-1:
+                  value:
+                    errorCode: SUBMIT-SALE-ERROR
+                    message: Can't submit sale...
       requestBody:
         content:
           application/json:
@@ -737,8 +755,12 @@ paths:
               examples:
                 example-1:
                   value:
-                    errorCode: error
-                    message: product_not_found
+                    errorCode: VOUCHER-EXPIRED
+                    message: string
+                example-2:
+                  value:
+                    errorCode: VOUCHER-NOT-FOUND
+                    message: string
       description: Validate Voucher information from CRM
       requestBody:
         content:
@@ -863,7 +885,11 @@ paths:
               examples:
                 example-1:
                   value:
-                    errorCode: string
+                    errorCode: VOUCHER-NOT-FOUND
+                    message: string
+                example-2:
+                  value:
+                    errorCode: VOUCHER-EXPIRED
                     message: string
       security:
         - Authorization apiKey: []
@@ -936,6 +962,32 @@ paths:
                     value: 0
                     voucherType: string
                     expiryDate: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  errorCode:
+                    type: string
+                    minLength: 1
+                  message:
+                    type: string
+                    minLength: 1
+                required:
+                  - errorCode
+                  - message
+              examples:
+                example-1:
+                  value:
+                    errorCode: VOUCHER-EXPIRED
+                    message: string
+                example-2:
+                  value:
+                    errorCode: VOUCHER-NOT-FOUND
+                    message: string
       description: Validate Voucher information from CRM
       parameters:
         - schema:
