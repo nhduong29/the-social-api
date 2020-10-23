@@ -36,8 +36,9 @@ info:
 
     SUBMIT-SALE-ERROR: Submit sale got error
   contact:
-    name: Duong Nguyen
-    email: nhduong29@gmail.com
+    name: Tsunago
+    email: info@tsunago.asia
+    url: 'https://www.tsunago.asia/contact-us/'
 servers:
   - url: 'https://thesocial.stoplight.io/mocks/thesocial/thesocial-zeoniq/2252264'
 paths:
