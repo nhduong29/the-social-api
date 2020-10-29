@@ -51,7 +51,7 @@ paths:
           description: OK
           content:
             application/json:
-              schema: &ref_5
+              schema: &ref_4
                 description: ''
                 type: object
                 x-examples:
@@ -383,31 +383,8 @@ paths:
                         WalletAmount: 0
                 Vouchers:
                   type: array
-                  items: &ref_4
-                    title: Voucher
-                    type: object
-                    description: Voucher of Customer
-                    x-examples:
-                      example-1:
-                        VoucherNo: string
-                        BarcodeNo: string
-                        ExpiryDate: string
-                        VoucherTypeCode: string
-                        VoucherValue: 0
-                        VoucherName: string
-                    properties:
-                      VoucherNo:
-                        type: string
-                      BarcodeNo:
-                        type: string
-                      ExpiryDate:
-                        type: string
-                      VoucherTypeCode:
-                        type: string
-                      VoucherValue:
-                        type: number
-                      VoucherName:
-                        type: string
+                  items:
+                    type: string
               required:
                 - MemberNo
                 - POSId
@@ -457,12 +434,7 @@ paths:
                       PointAmount: 0
                       WalletAmount: 0
                   Vouchers:
-                    - VoucherNo: string
-                      BarcodeNo: string
-                      ExpiryDate: string
-                      VoucherTypeCode: string
-                      VoucherValue: 0
-                      VoucherName: string
+                    - string
       parameters:
         - schema:
             type: string
@@ -569,7 +541,8 @@ paths:
                   type: array
                   uniqueItems: true
                   minItems: 1
-                  items: *ref_4
+                  items:
+                    type: string
               required:
                 - MemberNo
                 - POSId
@@ -621,12 +594,7 @@ paths:
                       PointAmount: 0
                       WalletAmount: 0
                   Vouchers:
-                    - VoucherNo: string
-                      BarcodeNo: string
-                      ExpiryDate: string
-                      VoucherTypeCode: string
-                      VoucherValue: 0
-                      VoucherName: string
+                    - string
         description: ''
       description: >-
         THIS CALL TO CLOSE THE TRANSACTION, FINISH PAYMENT PROCESS.
@@ -669,7 +637,31 @@ paths:
           description: Successful
           content:
             application/json:
-              schema: *ref_4
+              schema: &ref_5
+                title: Voucher
+                type: object
+                description: Voucher of Customer
+                x-examples:
+                  example-1:
+                    VoucherNo: string
+                    BarcodeNo: string
+                    ExpiryDate: string
+                    VoucherTypeCode: string
+                    VoucherValue: 0
+                    VoucherName: string
+                properties:
+                  VoucherNo:
+                    type: string
+                  BarcodeNo:
+                    type: string
+                  ExpiryDate:
+                    type: string
+                  VoucherTypeCode:
+                    type: string
+                  VoucherValue:
+                    type: number
+                  VoucherName:
+                    type: string
               examples:
                 example-1:
                   value:
@@ -842,12 +834,83 @@ paths:
           name: Signature
           description: 'apiKey, Please contact us to get this key'
           required: true
+  /reverse-sale:
+    post:
+      summary: Reverse sale
+      operationId: post-reverse-sale
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema: *ref_0
+              examples:
+                example-1:
+                  value:
+                    Code: string
+                    Message: string
+                    ExceptionMessage: string
+                    Params: string
+      description: Reverse sales data by POSId + BillNo
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: LocCode
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: POSId
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: Source
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: Signature
+          description: 'apiKey, Please contact us to get this key'
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                POSId:
+                  type: string
+                  minLength: 1
+                BillNo:
+                  type: string
+                  minLength: 1
+                Vouchers:
+                  type: array
+                  items:
+                    type: string
+              required:
+                - POSId
+                - BillNo
+                - Vouchers
+            examples:
+              example-1:
+                value:
+                  POSId: string
+                  BillNo: string
+                  Vouchers:
+                    - string
+        description: ''
 components:
   schemas:
-    Customer: *ref_5
+    Customer: *ref_4
     Payment: *ref_3
     OrderItem: *ref_2
-    Voucher: *ref_4
+    Voucher: *ref_5
     Error: *ref_0
     SubmitSalesResult: *ref_1
   securitySchemes:
