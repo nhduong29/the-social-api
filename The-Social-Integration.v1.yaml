@@ -51,7 +51,7 @@ paths:
           description: OK
           content:
             application/json:
-              schema: &ref_4
+              schema: &ref_5
                 description: ''
                 type: object
                 x-examples:
@@ -129,19 +129,33 @@ paths:
           description: Bad Request
           content:
             application/json:
-              schema: &ref_5
+              schema: &ref_0
                 description: ''
                 type: object
                 properties:
-                  errorCode:
+                  Code:
                     type: string
                     minLength: 1
-                  message:
+                  Message:
+                    type: string
+                    minLength: 1
+                  ExceptionMessage:
+                    type: string
+                    minLength: 1
+                  Params:
                     type: string
                     minLength: 1
                 required:
-                  - errorCode
-                  - message
+                  - Code
+                  - Message
+                  - ExceptionMessage
+                  - Params
+                x-examples:
+                  example-1:
+                    Code: string
+                    Message: string
+                    ExceptionMessage: string
+                    Params: string
                 title: Error
               examples:
                 example-1:
@@ -187,7 +201,7 @@ paths:
           description: OK
           content:
             application/json:
-              schema: &ref_0
+              schema: &ref_1
                 description: ''
                 type: object
                 properties:
@@ -215,6 +229,7 @@ paths:
                     PointBalance: 0
                     WalletDesc: string
                     WalletBalance: 0
+                title: SubmitSaleResult
               examples:
                 example-1:
                   value:
@@ -227,24 +242,14 @@ paths:
           description: Bad Request
           content:
             application/json:
-              schema:
-                description: ''
-                type: object
-                properties:
-                  errorCode:
-                    type: string
-                    minLength: 1
-                  message:
-                    type: string
-                    minLength: 1
-                required:
-                  - errorCode
-                  - message
+              schema: *ref_0
               examples:
                 example-1:
                   value:
-                    errorCode: SUBMIT-SALE-ERROR
-                    message: Can't submit sale...
+                    Code: string
+                    Message: string
+                    ExceptionMessage: string
+                    Params: string
       description: >-
         POS submit the transaction info to the CRM to check status, check
         points, credit
@@ -292,7 +297,7 @@ paths:
                   type: array
                   uniqueItems: true
                   minItems: 1
-                  items: &ref_1
+                  items: &ref_2
                     description: ''
                     type: object
                     properties:
@@ -342,7 +347,7 @@ paths:
                   type: array
                   uniqueItems: true
                   minItems: 1
-                  items: &ref_2
+                  items: &ref_3
                     description: ''
                     type: object
                     properties:
@@ -378,7 +383,7 @@ paths:
                         WalletAmount: 0
                 Vouchers:
                   type: array
-                  items: &ref_3
+                  items: &ref_4
                     title: Voucher
                     type: object
                     description: Voucher of Customer
@@ -489,7 +494,7 @@ paths:
           description: OK
           content:
             application/json:
-              schema: *ref_0
+              schema: *ref_1
               examples:
                 example-1:
                   value:
@@ -502,24 +507,14 @@ paths:
           description: Bad Request
           content:
             application/json:
-              schema:
-                description: ''
-                type: object
-                properties:
-                  errorCode:
-                    type: string
-                    minLength: 1
-                  message:
-                    type: string
-                    minLength: 1
-                required:
-                  - errorCode
-                  - message
+              schema: *ref_0
               examples:
                 example-1:
                   value:
-                    errorCode: SUBMIT-SALE-ERROR
-                    message: Can't submit sale...
+                    Code: string
+                    Message: string
+                    ExceptionMessage: string
+                    Params: string
       requestBody:
         content:
           application/json:
@@ -564,17 +559,17 @@ paths:
                   type: array
                   uniqueItems: true
                   minItems: 1
-                  items: *ref_1
+                  items: *ref_2
                 Payments:
                   type: array
                   uniqueItems: true
                   minItems: 1
-                  items: *ref_2
+                  items: *ref_3
                 Vouchers:
                   type: array
                   uniqueItems: true
                   minItems: 1
-                  items: *ref_3
+                  items: *ref_4
               required:
                 - MemberNo
                 - POSId
@@ -674,7 +669,7 @@ paths:
           description: Successful
           content:
             application/json:
-              schema: *ref_3
+              schema: *ref_4
               examples:
                 example-1:
                   value:
@@ -688,28 +683,14 @@ paths:
           description: Bad request if voucher not found
           content:
             application/json:
-              schema:
-                description: ''
-                type: object
-                properties:
-                  errorCode:
-                    type: string
-                    minLength: 1
-                  message:
-                    type: string
-                    minLength: 1
-                required:
-                  - errorCode
-                  - message
+              schema: *ref_0
               examples:
                 example-1:
                   value:
-                    errorCode: VOUCHER-EXPIRED
-                    message: string
-                example-2:
-                  value:
-                    errorCode: VOUCHER-NOT-FOUND
-                    message: string
+                    Code: string
+                    Message: string
+                    ExceptionMessage: string
+                    Params: string
       description: Validate Voucher information from CRM
       parameters:
         - schema:
@@ -757,29 +738,18 @@ paths:
                     type: number
                   RejectedAmt:
                     type: number
-              examples: {}
+              examples:
+                example-1:
+                  value:
+                    'AcceptedAmt ': 0
+                    WalletBalance: 0
+                    RejectedAmt: 0
         '400':
           description: Bad Request
           content:
             application/json:
-              schema:
-                description: ''
-                type: object
-                properties:
-                  errorCode:
-                    type: string
-                    minLength: 1
-                  message:
-                    type: string
-                    minLength: 1
-                required:
-                  - errorCode
-                  - message
-              examples:
-                example-1:
-                  value:
-                    errorCode: ERROR
-                    message: Error mesage...
+              schema: *ref_0
+              examples: {}
       parameters:
         - schema:
             type: string
@@ -836,7 +806,7 @@ paths:
                 description: ''
                 type: object
                 properties:
-                  status:
+                  Status:
                     type: string
                     enum:
                       - FAILED
@@ -844,10 +814,10 @@ paths:
               examples:
                 example-1:
                   value:
-                    status: OK
+                    Status: OK
                 example-2:
                   value:
-                    status: FAILED
+                    Status: FAILED
       operationId: get-health-check
       description: This API use for check the CRM is online or not.
       parameters:
@@ -874,12 +844,12 @@ paths:
           required: true
 components:
   schemas:
-    Customer: *ref_4
-    Payment: *ref_2
-    OrderItem: *ref_1
-    Voucher: *ref_3
-    Error: *ref_5
-    SubmitSalesResult: *ref_0
+    Customer: *ref_5
+    Payment: *ref_3
+    OrderItem: *ref_2
+    Voucher: *ref_4
+    Error: *ref_0
+    SubmitSalesResult: *ref_1
   securitySchemes:
     Authorization apiKey:
       name: apiKey
