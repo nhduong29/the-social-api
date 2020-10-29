@@ -51,139 +51,98 @@ paths:
           description: OK
           content:
             application/json:
-              schema: &ref_3
+              schema: &ref_4
                 description: ''
                 type: object
-                title: Customer
                 x-examples:
                   example-1:
-                    cardNumber: '123456'
-                    phoneNumber: '+61123456789'
-                    email: test@gmail.com
-                    name: User1
-                    accountNumber: '123456'
-                    pointBalance: 980
-                    creditBalance: 985.2
-                    tier: GOLD
-                    vouchers:
-                      - voucherID: v0123
-                        voucherName: RM50 off the bill
-                        value: 0
-                        voucherType: Cash Voucher
+                    MemberNo: string
+                    CardNo: string
+                    MemberName: string
+                    ExpiryDate: string
+                    DateOfBirth: string
+                    Email: string
+                    MobileNo: string
+                    PhoneNo: string
+                    PointBalance: 0
+                    PointValue: 0
+                    WalletDesc: string
+                    WalletBalance: 0
                 properties:
-                  cardNumber:
+                  MemberNo:
                     type: string
                     minLength: 1
-                  phoneNumber:
+                  CardNo:
                     type: string
                     minLength: 1
-                  email:
+                  MemberName:
                     type: string
                     minLength: 1
-                  name:
+                  ExpiryDate:
                     type: string
                     minLength: 1
-                  accountNumber:
+                  DateOfBirth:
                     type: string
                     minLength: 1
-                  pointBalance:
+                  Email:
+                    type: string
+                    minLength: 1
+                  MobileNo:
+                    type: string
+                    minLength: 1
+                  PointBalance:
                     type: number
-                  creditBalance:
+                  PointValue:
                     type: number
-                  tier:
+                  WalletDesc:
                     type: string
                     minLength: 1
-                  vouchers:
-                    type: array
-                    description: List all of vouchers that this user have
-                    items: &ref_0
-                      title: Voucher
-                      type: object
-                      description: Voucher of Customer
-                      x-examples:
-                        example-1:
-                          voucherID: string
-                          voucherName: string
-                          value: 0
-                          voucherType: string
-                      properties:
-                        voucherID:
-                          type: string
-                        voucherName:
-                          type: string
-                        value:
-                          type: number
-                        voucherType:
-                          type: string
-                        expiryDate:
-                          type: string
+                  WalletBalance:
+                    type: number
                 required:
-                  - cardNumber
-                  - phoneNumber
-                  - email
-                  - name
-                  - accountNumber
-                  - pointBalance
-                  - creditBalance
-                  - tier
+                  - MemberNo
+                  - CardNo
+                  - MemberName
+                  - ExpiryDate
+                  - DateOfBirth
+                  - Email
+                  - MobileNo
+                  - PointBalance
+                  - PointValue
+                  - WalletDesc
+                  - WalletBalance
               examples:
                 example-1:
                   value:
-                    cardNumber: '0123456'
-                    phoneNumber: '+601127308562'
-                    email: user@gmail.com
-                    name: User Test
-                    accountNumber: ACC_NUMBER001
-                    pointBalance: 8000
-                    creditBalance: 230
-                    tier: GOLD
-                    vouchers:
-                      - voucherID: VOUCHER001_ACC_NUMBER001
-                        voucherName: Free chicken rice
-                        value: 1
-                        voucherType: PRODUCT_PROMOTION
-                        expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
-                example-2:
-                  value:
-                    cardNumber: '01234567'
-                    phoneNumber: '+601127308562'
-                    email: user1@gmail.com
-                    name: User 1 Test
-                    accountNumber: ACC_NUMBER002
-                    pointBalance: 9000
-                    creditBalance: 500
-                    tier: PLATILUM
-                    vouchers:
-                      - voucherID: VOUCHER001_ACC_NUMBER002
-                        voucherName: Free chicken rice
-                        value: 1
-                        voucherType: PRODUCT_PROMOTION
-                        expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
-                      - voucherID: VOUCHER002_ACC_NUMBER002
-                        voucherName: 20% off the bill
-                        value: 20
-                        voucherType: DISCOUNT
-                        expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
-                      - voucherID: VOUCHER003_ACC_NUMBER002
-                        voucherName: RM50 off the bill
-                        value: 50
-                        voucherType: CASH
-                        expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
+                    MemberNo: '123456'
+                    CardNo: '0000001'
+                    MemberName: Duong
+                    ExpiryDate: '2022-12-30'
+                    DateOfBirth: '1991-29-09'
+                    Email: duong@test.com
+                    MobileNo: '+601125632514'
+                    PointBalance: 5000
+                    PointValue: 3625
+                    WalletDesc: string
+                    WalletBalance: 200
         '400':
           description: Bad Request
           content:
             application/json:
-              schema:
+              schema: &ref_5
                 description: ''
                 type: object
                 properties:
                   errorCode:
                     type: string
+                    minLength: 1
                   message:
                     type: string
                     minLength: 1
                 required:
+                  - errorCode
                   - message
+                title: Error
               examples:
                 example-1:
                   value:
@@ -209,33 +168,42 @@ paths:
           description: OK
           content:
             application/json:
-              schema:
+              schema: &ref_0
                 description: ''
                 type: object
                 properties:
-                  pointBalance:
+                  PointEarned:
                     type: number
-                  creditBalance:
+                  PointRedeemed:
                     type: number
-                  remarks:
+                  PointBalance:
+                    type: number
+                  WalletDesc:
                     type: string
                     minLength: 1
-                  pointEarned:
-                    type: number
-                  pointRedeemed:
+                  WalletBalance:
                     type: number
                 required:
-                  - pointBalance
-                  - creditBalance
-                  - remarks
+                  - PointEarned
+                  - PointRedeemed
+                  - PointBalance
+                  - WalletDesc
+                  - WalletBalance
+                x-examples:
+                  example-1:
+                    PointEarned: 0
+                    PointRedeemed: 0
+                    PointBalance: 0
+                    WalletDesc: string
+                    WalletBalance: 0
               examples:
                 example-1:
                   value:
-                    pointBalance: 80
-                    creditBalance: 20
-                    remarks: string
-                    pointEarned: 100
-                    pointRedeemed: 0
+                    PointEarned: 0
+                    PointRedeemed: 0
+                    PointBalance: 0
+                    WalletDesc: string
+                    WalletBalance: 0
         '400':
           description: Bad Request
           content:
@@ -268,198 +236,228 @@ paths:
               description: ''
               type: object
               properties:
-                receiptID:
+                MemberNo:
                   type: string
                   minLength: 1
-                orderID:
+                POSId:
                   type: string
                   minLength: 1
-                posNo:
+                BillNo:
                   type: string
                   minLength: 1
-                  description: POS number
-                billDate:
+                RefNo:
                   type: string
                   minLength: 1
-                groundTotal:
+                BizDate:
+                  type: string
+                  minLength: 1
+                LocCode:
+                  type: string
+                  minLength: 1
+                NetAmt:
                   type: number
-                  description: Total price after tax
-                taxAmount:
+                TaxAmt:
                   type: number
-                  description: Total price befor tax
-                tableNumber:
+                ChargeAmt:
+                  type: number
+                AdjAmt:
+                  type: number
+                NetTotal:
+                  type: number
+                Remarks:
+                  type: number
+                BillImage:
                   type: string
                   minLength: 1
-                guests:
-                  type: number
-                  description: Amount of guests
-                staffId:
-                  type: string
-                  minLength: 1
-                  description: 'ID of Staft, who created this bill'
-                menuItems:
+                OrderItems:
                   type: array
-                  description: List of items that User ordered
+                  uniqueItems: true
+                  minItems: 1
                   items: &ref_1
-                    description: Order item
+                    description: ''
                     type: object
-                    title: OrderItem
                     properties:
-                      productCode:
+                      OrderLine:
+                        type: number
+                      ItemCode:
                         type: string
                         minLength: 1
-                      quantity:
-                        type: number
-                      price:
-                        type: number
-                      remarks:
+                      LineDesc:
                         type: string
                         minLength: 1
-                      productName:
+                      OrderQty:
+                        type: number
+                      UnitSellPrice:
+                        type: number
+                      NetAmt:
+                        type: number
+                      TaxAmt:
+                        type: number
+                      ChargeAmt:
+                        type: number
+                      Remarks:
                         type: string
-                      productCategory:
-                        type: string
+                        minLength: 1
                     required:
-                      - productCode
-                      - quantity
-                      - price
-                      - productName
-                      - productCategory
-                outletID:
-                  type: string
-                  description: Outlet Name
-                cardNumber:
-                  type: string
-                  description: Card number
-                totalPrice:
-                  type: number
-                  description: Total price before tax
-                totalDiscount:
-                  type: number
-                  description: Total of Discount
-                vouchers:
+                      - OrderLine
+                      - ItemCode
+                      - LineDesc
+                      - OrderQty
+                      - UnitSellPrice
+                      - NetAmt
+                      - TaxAmt
+                      - ChargeAmt
+                      - Remarks
+                    x-examples:
+                      example-1:
+                        OrderLine: 0
+                        ItemCode: string
+                        LineDesc: string
+                        OrderQty: 0
+                        UnitSellPrice: 0
+                        NetAmt: 0
+                        TaxAmt: 0
+                        ChargeAmt: 0
+                        Remarks: string
+                Payments:
                   type: array
-                  description: List out all vouchers that user want to redeem
-                  items: *ref_0
-                payments:
-                  type: array
-                  description: List out all payment method user use to pay the bill
+                  uniqueItems: true
+                  minItems: 1
                   items: &ref_2
-                    description: >-
-                      The payment tender is the method by which a payment was
-                      received. Cash, check, wire transfer, PayPal, credit
-                      card...
+                    description: ''
                     type: object
                     properties:
-                      tenderCode:
+                      TenderCode:
                         type: string
                         minLength: 1
-                      tenderDesc:
+                      TenderDesc:
                         type: string
                         minLength: 1
-                      currencyCode:
+                      CurrCode:
                         type: string
                         minLength: 1
-                      paymentAmount:
+                      PaymentAmt:
+                        type: number
+                      PointAmount:
+                        type: number
+                      WalletAmount:
                         type: number
                     required:
-                      - tenderCode
-                      - tenderDesc
-                      - currencyCode
-                      - paymentAmount
-                    title: Payment
+                      - TenderCode
+                      - TenderDesc
+                      - CurrCode
+                      - PaymentAmt
+                      - PointAmount
+                      - WalletAmount
+                    x-examples:
+                      example-1:
+                        TenderCode: string
+                        TenderDesc: string
+                        CurrCode: string
+                        PaymentAmt: 0
+                        PointAmount: 0
+                        WalletAmount: 0
+                Vouchers:
+                  type: array
+                  items: &ref_3
+                    title: Voucher
+                    type: object
+                    description: Voucher of Customer
+                    x-examples:
+                      example-1:
+                        VoucherNo: string
+                        BarcodeNo: string
+                        ExpiryDate: string
+                        VoucherTypeCode: string
+                        VoucherValue: 0
+                        VoucherName: string
+                    properties:
+                      VoucherNo:
+                        type: string
+                      BarcodeNo:
+                        type: string
+                      ExpiryDate:
+                        type: string
+                      VoucherTypeCode:
+                        type: string
+                      VoucherValue:
+                        type: number
+                      VoucherName:
+                        type: string
               required:
-                - receiptID
-                - orderID
-                - posNo
-                - billDate
-                - groundTotal
-                - taxAmount
-                - tableNumber
-                - guests
-                - staffId
-                - menuItems
-                - outletID
-                - cardNumber
-                - totalPrice
-                - totalDiscount
+                - MemberNo
+                - POSId
+                - BillNo
+                - RefNo
+                - BizDate
+                - LocCode
+                - NetAmt
+                - TaxAmt
+                - ChargeAmt
+                - AdjAmt
+                - NetTotal
+                - Remarks
+                - BillImage
+                - OrderItems
             examples:
               example-1:
                 value:
-                  receiptID: RECEIPT_001
-                  orderID: ORDER_001
-                  posNo: POS_001
-                  billDate: 'Tue Oct 20 2020 20:59:22 GMT+0800'
-                  groundTotal: 200
-                  taxAmount: 20
-                  tableNumber: TABLE_001
-                  guests: 3
-                  staffId: STAFF_001
-                  menuItems:
-                    - productCode: CHICKEN_RICE_001
-                      quantity: 2
-                      price: 10
-                      productName: Chicken rice Viet
-                      productCategory: Category 1
-                    - productCode: COFFE_001
-                      quantity: 2
-                      price: 5
-                      productName: CAFE VIET
-                      productCategory: Category 2
-                  outletID: OUTLET_001
-                  cardNumber: CARD_ID_01234
-                  totalPrice: 220
-                  totalDiscount: 0
-                  vouchers:
-                    - voucherID: VOUCHER001_ACC_NUMBER002
-                      voucherName: Free chicken rice
-                      value: 1
-                      voucherType: PRODUCT_PROMOTION
-                      expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
-                    - voucherID: VOUCHER002_ACC_NUMBER002
-                      voucherName: 20% off the bill
-                      value: 20
-                      voucherType: DISCOUNT
-                      expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
-                  payments:
-                    - tenderCode: CASH
-                      tenderDesc: pay with cash
-                      currencyCode: MYR
-                      paymentAmount: 100
-                    - tenderCode: SOCIAL_CREDIT
-                      tenderDesc: The credit of Social
-                      currencyCode: MYR
-                      paymentAmount: 20
-              example-2:
-                value:
-                  receiptID: RECEIPT_001
-                  orderID: ORDER_001
-                  posNo: POS_001
-                  billDate: 'Tue Oct 20 2020 20:59:22 GMT+0800'
-                  groundTotal: 200
-                  taxAmount: 20
-                  tableNumber: TABLE_001
-                  guests: 3
-                  staffId: STAFF_001
-                  menuItems:
-                    - productCode: CHICKEN_RICE_001
-                      quantity: 2
-                      price: 10
-                      productName: Chicken rice Viet
-                      productCategory: Category 1
-                    - productCode: COFFE_001
-                      quantity: 2
-                      price: 5
-                      productName: CAFE VIET
-                      productCategory: Category 2
-                  outletID: OUTLET_001
-                  cardNumber: CARD_ID_01234
-                  totalPrice: 220
-                  totalDiscount: 0
-                  vouchers: []
-                  payments: []
-      security:
-        - Authorization apiKey: []
+                  MemberNo: string
+                  POSId: string
+                  BillNo: string
+                  RefNo: string
+                  BizDate: string
+                  LocCode: string
+                  NetAmt: 0
+                  TaxAmt: 0
+                  ChargeAmt: 0
+                  AdjAmt: 0
+                  NetTotal: 0
+                  Remarks: 0
+                  BillImage: string
+                  OrderItems:
+                    - OrderLine: 0
+                      ItemCode: string
+                      LineDesc: string
+                      OrderQty: 0
+                      UnitSellPrice: 0
+                      NetAmt: 0
+                      TaxAmt: 0
+                      ChargeAmt: 0
+                      Remarks: string
+                  Payments:
+                    - TenderCode: string
+                      TenderDesc: string
+                      CurrCode: string
+                      PaymentAmt: 0
+                      PointAmount: 0
+                      WalletAmount: 0
+                  Vouchers:
+                    - VoucherNo: string
+                      BarcodeNo: string
+                      ExpiryDate: string
+                      VoucherTypeCode: string
+                      VoucherValue: 0
+                      VoucherName: string
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: LocCode
+          description: Outlet
+        - schema:
+            type: string
+          in: header
+          name: POSId
+        - schema:
+            type: string
+          in: header
+          name: Source
+        - schema:
+            type: string
+          in: header
+          name: Signature
+          description: 'apiKey, Please contact us to get this key'
     put:
       summary: 'Submit a sale data to CRM, Update on CRM, Close Transaction'
       operationId: put-submit-sale
@@ -468,35 +466,15 @@ paths:
           description: OK
           content:
             application/json:
-              schema:
-                description: ''
-                type: object
-                properties:
-                  pointEarned:
-                    type: number
-                  pointRedeemed:
-                    type: number
-                  pointBalance:
-                    type: number
-                  creditBalance:
-                    type: number
-                  remarks:
-                    type: string
-                    minLength: 1
-                required:
-                  - pointEarned
-                  - pointRedeemed
-                  - pointBalance
-                  - creditBalance
-                  - remarks
+              schema: *ref_0
               examples:
                 example-1:
                   value:
-                    pointEarned: 123
-                    pointRedeemed: 20
-                    pointBalance: 859
-                    creditBalance: 200
-                    remarks: string
+                    PointEarned: 0
+                    PointRedeemed: 0
+                    PointBalance: 0
+                    WalletDesc: string
+                    WalletBalance: 0
         '400':
           description: Bad Request
           content:
@@ -526,152 +504,111 @@ paths:
               description: ''
               type: object
               properties:
-                receiptID:
+                MemberNo:
                   type: string
                   minLength: 1
-                orderID:
+                POSId:
                   type: string
                   minLength: 1
-                posNo:
+                BillNo:
                   type: string
                   minLength: 1
-                billDate:
+                RefNo:
                   type: string
                   minLength: 1
-                groundTotal:
+                BizDate:
+                  type: string
+                  minLength: 1
+                LocCode:
+                  type: string
+                  minLength: 1
+                NetAmt:
                   type: number
-                taxAmount:
+                TaxAmt:
                   type: number
-                tableNumber:
+                ChargeAmt:
+                  type: number
+                AdjAmt:
+                  type: number
+                NetTotal:
+                  type: number
+                Remarks:
+                  type: number
+                BillImage:
                   type: string
                   minLength: 1
-                guests:
-                  type: number
-                staffId:
-                  type: string
-                  minLength: 1
-                menuItems:
+                OrderItems:
                   type: array
                   uniqueItems: true
                   minItems: 1
                   items: *ref_1
-                payments:
+                Payments:
                   type: array
                   uniqueItems: true
                   minItems: 1
-                  description: >-
-                    List out all payment method user use to pay the bill.
-                    Required
                   items: *ref_2
-                outletID:
-                  type: string
-                  minLength: 1
-                cardNumber:
-                  type: string
-                  minLength: 1
-                totalPrice:
-                  type: number
-                totalDiscount:
-                  type: number
-                vouchers:
+                Vouchers:
                   type: array
-                  description: List out all vouchers that user want to redeem
-                  items: *ref_0
+                  uniqueItems: true
+                  minItems: 1
+                  items: *ref_3
               required:
-                - receiptID
-                - orderID
-                - posNo
-                - billDate
-                - groundTotal
-                - taxAmount
-                - tableNumber
-                - guests
-                - staffId
-                - menuItems
-                - payments
-                - outletID
-                - cardNumber
-                - totalPrice
-                - totalDiscount
+                - MemberNo
+                - POSId
+                - BillNo
+                - RefNo
+                - BizDate
+                - LocCode
+                - NetAmt
+                - TaxAmt
+                - ChargeAmt
+                - AdjAmt
+                - NetTotal
+                - Remarks
+                - BillImage
+                - OrderItems
+                - Payments
+                - Vouchers
             examples:
               example-1:
                 value:
-                  receiptID: RECEIPT_001
-                  orderID: ORDER_001
-                  posNo: POS_001
-                  billDate: 'Tue Oct 20 2020 20:59:22 GMT+0800'
-                  groundTotal: 200
-                  taxAmount: 20
-                  tableNumber: TABLE_001
-                  guests: 3
-                  staffId: STAFF_001
-                  menuItems:
-                    - productCode: CHICKEN_RICE_001
-                      quantity: 2
-                      price: 10
-                      productName: Chicken rice Viet
-                      productCategory: Category 1
-                    - productCode: COFFE_001
-                      quantity: 2
-                      price: 5
-                      productName: CAFE VIET
-                      productCategory: Category 2
-                  outletID: OUTLET_001
-                  cardNumber: CARD_ID_01234
-                  totalPrice: 220
-                  totalDiscount: 0
-                  vouchers:
-                    - voucherID: VOUCHER001_ACC_NUMBER002
-                      voucherName: Free chicken rice
-                      value: 1
-                      voucherType: PRODUCT_PROMOTION
-                      expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
-                    - voucherID: VOUCHER002_ACC_NUMBER002
-                      voucherName: 20% off the bill
-                      value: 20
-                      voucherType: DISCOUNT
-                      expiryDate: 'Tue Oct 20 2020 20:46:21 GMT+0800'
-                  payments:
-                    - tenderCode: CASH
-                      tenderDesc: pay with cash
-                      currencyCode: MYR
-                      paymentAmount: 100
-                    - tenderCode: SOCIAL_CREDIT
-                      tenderDesc: The credit of Social
-                      currencyCode: MYR
-                      paymentAmount: 20
-              example-2:
-                value:
-                  receiptID: RECEIPT_001
-                  orderID: ORDER_001
-                  posNo: POS_001
-                  billDate: 'Tue Oct 20 2020 20:59:22 GMT+0800'
-                  groundTotal: 200
-                  taxAmount: 20
-                  tableNumber: TABLE_001
-                  guests: 3
-                  staffId: STAFF_001
-                  menuItems:
-                    - productCode: CHICKEN_RICE_001
-                      quantity: 2
-                      price: 10
-                      productName: Chicken rice Viet
-                      productCategory: Category 1
-                    - productCode: COFFE_001
-                      quantity: 2
-                      price: 5
-                      productName: CAFE VIET
-                      productCategory: Category 2
-                  outletID: OUTLET_001
-                  cardNumber: CARD_ID_01234
-                  totalPrice: 220
-                  totalDiscount: 0
-                  vouchers: []
-                  payments:
-                    - tenderCode: CASH
-                      tenderDesc: pay with cash
-                      currencyCode: MYR
-                      paymentAmount: 100
+                  MemberNo: string
+                  POSId: string
+                  BillNo: string
+                  RefNo: string
+                  BizDate: string
+                  LocCode: string
+                  NetAmt: 0
+                  TaxAmt: 0
+                  ChargeAmt: 0
+                  AdjAmt: 0
+                  NetTotal: 0
+                  Remarks: 0
+                  BillImage: string
+                  OrderItems:
+                    - OrderLine: 0
+                      ItemCode: string
+                      LineDesc: string
+                      OrderQty: 0
+                      UnitSellPrice: 0
+                      NetAmt: 0
+                      TaxAmt: 0
+                      ChargeAmt: 0
+                      Remarks: string
+                  Payments:
+                    - TenderCode: string
+                      TenderDesc: string
+                      CurrCode: string
+                      PaymentAmt: 0
+                      PointAmount: 0
+                      WalletAmount: 0
+                  Vouchers:
+                    - VoucherNo: string
+                      BarcodeNo: string
+                      ExpiryDate: string
+                      VoucherTypeCode: string
+                      VoucherValue: 0
+                      VoucherName: string
         description: ''
       description: >-
         THIS CALL TO CLOSE THE TRANSACTION, FINISH PAYMENT PROCESS.
@@ -687,291 +624,26 @@ paths:
         - Authorization apiKey: []
       parameters: []
   /redeem-voucher:
-    post:
-      summary: Redeem the voucher
-      operationId: post-redeem-voucher
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  pointBalance:
-                    type: number
-                  creditBalance:
-                    type: number
-                  pointEarned:
-                    type: integer
-                  pointRedeemed:
-                    type: number
-                  voucher: *ref_0
-                  customer: *ref_3
-                  product: *ref_1
-                required:
-                  - pointBalance
-                  - creditBalance
-                  - pointEarned
-                  - pointRedeemed
-              examples:
-                example-1:
-                  value:
-                    pointBalance: 100
-                    creditBalance: 100
-                    pointEarned: 1
-                    pointRedeemed: 10
-                    voucher:
-                      voucherID: VOUCHER001_ACC_NUMBER002
-                      voucherName: CHICKEND RICE VOUCHER
-                      value: 0
-                      voucherType: PRODUCT_PROMOTION
-                      expiryDate: string
-                    customer:
-                      cardNumber: string
-                      phoneNumber: string
-                      email: string
-                      name: string
-                      accountNumber: string
-                      pointBalance: 0
-                      creditBalance: 0
-                      tier: string
-                    product:
-                      productCode: CHICKEN_RICE
-                      quantity: 1
-                      price: 100
-                      remarks: USED BY THIS VOUCHER
-                      productName: Chicken rice Viet
-                      productCategory: Cate 1
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                description: ''
-                type: object
-                properties:
-                  errorCode:
-                    type: string
-                    minLength: 1
-                  message:
-                    type: string
-                    minLength: 1
-                required:
-                  - errorCode
-                  - message
-              examples:
-                example-1:
-                  value:
-                    errorCode: VOUCHER-EXPIRED
-                    message: string
-                example-2:
-                  value:
-                    errorCode: VOUCHER-NOT-FOUND
-                    message: string
-      description: Validate Voucher information from CRM
-      requestBody:
-        content:
-          application/json:
-            schema:
-              description: ''
-              type: object
-              properties:
-                voucherID:
-                  type: string
-                  minLength: 1
-                receiptID:
-                  type: string
-                  minLength: 1
-                orderID:
-                  type: string
-                  minLength: 1
-                posNo:
-                  type: string
-                  minLength: 1
-                billDate:
-                  type: string
-                  minLength: 1
-                tableNumber:
-                  type: string
-                  minLength: 1
-                staffId:
-                  type: string
-                  minLength: 1
-                outletID:
-                  type: string
-                  minLength: 1
-              required:
-                - voucherID
-                - receiptID
-                - posNo
-                - billDate
-                - staffId
-                - outletID
-            examples:
-              example-1:
-                value:
-                  voucherID: VOUCHER001_ACC_NUMBER002
-                  receiptID: string
-                  orderID: RECEIPT_001
-                  posNo: POS_001
-                  billDate: 'Tue Oct 20 2020 20:59:22 GMT+0800'
-                  tableNumber: TABLE_001
-                  staffId: STAFF_001
-                  outletID: OUTLET_001
-        description: ''
-      security:
-        - Authorization apiKey: []
-    put:
-      summary: 'Redeem Voucher, Update in CRM, Close transaction'
-      operationId: put-redeem-voucher
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  pointBalance:
-                    type: number
-                  creditBalance:
-                    type: number
-                  pointEarned:
-                    type: number
-                  pointRedeemed:
-                    type: number
-                  voucher: *ref_0
-                  customer: *ref_3
-                  product: *ref_1
-              examples:
-                example-1:
-                  value:
-                    pointBalance: 100
-                    creditBalance: 100
-                    pointEarned: 1
-                    pointRedeemed: 10
-                    voucher:
-                      voucherID: VOUCHER001_ACC_NUMBER002
-                      voucherName: CHICKEND RICE VOUCHER
-                      value: 0
-                      voucherType: PRODUCT_PROMOTION
-                      expiryDate: string
-                    customer:
-                      cardNumber: string
-                      phoneNumber: string
-                      email: string
-                      name: string
-                      accountNumber: string
-                      pointBalance: 0
-                      creditBalance: 0
-                      tier: string
-                    product:
-                      productCode: CHICKEN_RICE
-                      quantity: 1
-                      price: 100
-                      remarks: USED BY THIS VOUCHER
-                      productName: Chicken rice Viet
-                      productCategory: Cate 1
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                description: ''
-                type: object
-                properties:
-                  errorCode:
-                    type: string
-                    minLength: 1
-                  message:
-                    type: string
-                    minLength: 1
-                required:
-                  - errorCode
-                  - message
-              examples:
-                example-1:
-                  value:
-                    errorCode: VOUCHER-NOT-FOUND
-                    message: string
-                example-2:
-                  value:
-                    errorCode: VOUCHER-EXPIRED
-                    message: string
-      security:
-        - Authorization apiKey: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              description: ''
-              type: object
-              properties:
-                voucherID:
-                  type: string
-                  minLength: 1
-                receiptID:
-                  type: string
-                  minLength: 1
-                orderID:
-                  type: string
-                  minLength: 1
-                posNo:
-                  type: string
-                  minLength: 1
-                billDate:
-                  type: string
-                  minLength: 1
-                tableNumber:
-                  type: string
-                  minLength: 1
-                staffId:
-                  type: string
-                  minLength: 1
-                outletID:
-                  type: string
-                  minLength: 1
-              required:
-                - voucherID
-                - receiptID
-                - orderID
-                - posNo
-                - billDate
-                - tableNumber
-                - staffId
-                - outletID
-            examples:
-              example-1:
-                value:
-                  voucherID: VOUCHER001_ACC_NUMBER002
-                  receiptID: string
-                  orderID: RECEIPT_001
-                  posNo: POS_001
-                  billDate: 'Tue Oct 20 2020 20:59:22 GMT+0800'
-                  tableNumber: TABLE_001
-                  staffId: STAFF_001
-                  outletID: OUTLET_001
-      description: Redeem Voucher information from CRM
     get:
       summary: Validate Voucher
       operationId: get-redeem-voucher
       responses:
         '200':
-          description: OK
+          description: Successful
           content:
             application/json:
-              schema: *ref_0
+              schema: *ref_3
               examples:
                 example-1:
                   value:
-                    voucherID: string
-                    voucherName: string
-                    value: 0
-                    voucherType: string
-                    expiryDate: string
+                    VoucherNo: string
+                    BarcodeNo: string
+                    ExpiryDate: string
+                    VoucherTypeCode: string
+                    VoucherValue: 0
+                    VoucherName: string
         '400':
-          description: Bad Request
+          description: Bad request if voucher not found
           content:
             application/json:
               schema:
@@ -1002,7 +674,7 @@ paths:
             type: string
           in: query
           required: true
-          name: voucherID
+          name: VoucherNo
   /redeem-credit:
     post:
       summary: Use Credit
@@ -1015,18 +687,13 @@ paths:
               schema:
                 type: object
                 properties:
-                  'acceptedCreditAmount ':
+                  'AcceptedAmt ':
                     type: number
-                  creditBalance:
+                  WalletBalance:
                     type: number
-                  rejectedCreditAmount:
+                  RejectedAmt:
                     type: number
-              examples:
-                example-1:
-                  value:
-                    'acceptedCreditAmount ': 100
-                    creditBalance: 200
-                    rejectedCreditAmount: 0
+              examples: {}
         '400':
           description: Bad Request
           content:
@@ -1056,15 +723,15 @@ paths:
             schema:
               type: object
               properties:
-                cardNumber:
+                CardNo:
                   type: string
-                creditAmount:
+                TopupAmt:
                   type: number
             examples:
               example-1:
                 value:
-                  cardNumber: '0123456'
-                  creditAmount: 100
+                  CardNo: string
+                  TopupAmt: 0
         description: ''
       security:
         - Authorization apiKey: []
@@ -1104,10 +771,12 @@ paths:
       description: This API use for check the CRM is online or not.
 components:
   schemas:
-    Customer: *ref_3
+    Customer: *ref_4
     Payment: *ref_2
     OrderItem: *ref_1
-    Voucher: *ref_0
+    Voucher: *ref_3
+    Error: *ref_5
+    SubmitSalesResult: *ref_0
   securitySchemes:
     Authorization apiKey:
       name: apiKey
